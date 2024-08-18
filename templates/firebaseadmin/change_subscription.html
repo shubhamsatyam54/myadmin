@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container h-100">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-md-6 col-sm-10">
+            <h1 class="text-center">Change Subscription</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="{{ form.email.id_for_label }}" class="col-md-4 col-sm-12 col-form-label text-md-right">{{ form.email.label }}</label>
+                    <div class="col-md-8 col-sm-12">
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{ form.vehicle_number.id_for_label }}" class="col-md-4 col-sm-12 col-form-label text-md-right">{{ form.vehicle_number.label }}</label>
+                    <div class="col-md-8 col-sm-12">
+                        {{ form.vehicle_number }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{ form.subscription.id_for_label }}" class="col-md-4 col-sm-12 col-form-label text-md-right">{{ form.subscription.label }}</label>
+                    <div class="col-md-8 col-sm-12">
+                        {{ form.subscription }}
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Change Subscription</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const emailField = document.querySelector('select[name="email"]');
+    const vehicleField = document.querySelector('select[name="vehicle_number"]');
+
+    emailField.addEventListener('change', function() {
+        const email = emailField.value;
+
+        if (email) {
+            fetch(`/get_vehicles/?email=${email}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing options
+                    vehicleField.innerHTML = '<option value="">Select Vehicle</option>';
+
+                    // Add new options
+                    data.vehicles.forEach(vehicle => {
+                        const option = document.createElement('option');
+                        option.value = vehicle;
+                        option.textContent = vehicle;
+                        vehicleField.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching vehicles:', error));
+        } else {
+            vehicleField.innerHTML = '<option value="">Select Vehicle</option>';
+        }
+    });
+});
+</script>
+{% endblock %}

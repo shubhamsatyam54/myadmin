@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar with Bootstrap</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">VLTS APP Admin</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item {% if request.path == '/create_account/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'create_account' %}">Create Account</a>
+            </li>
+            <li class="nav-item {% if request.path == '/add_vehicle/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'add_vehicle' %}">Add Vehicle</a>
+            </li>
+            <li class="nav-item {% if request.path == '/change_subscription/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'change_subscription' %}">Change Subscription</a>
+            </li>
+            <li class="nav-item {% if request.path == '/change_password/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'change_password' %}">Change Password</a>
+            </li>
+
+        <li class="nav-item {% if request.path == '/admin/' %}active{% endif %}">
+                <a class="nav-link" href="/admin">Admin</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the current URL path
+    var currentPath = window.location.pathname;
+
+    // Select all navbar links
+    var navLinks = document.querySelectorAll('.navbar-nav .nav-item .nav-link');
+
+    // Loop through each link
+    navLinks.forEach(function(link) {
+        // Get the href attribute of the link
+        var href = link.getAttribute('href');
+
+        // Check if the href matches the current path
+        if (currentPath === href) {
+            // Add 'active' class to the parent nav-item
+            link.parentElement.classList.add('active');
+        } else {
+            // Remove 'active' class if it doesn't match
+            link.parentElement.classList.remove('active');
+        }
+    });
+});
+</script>
+
+</html>
